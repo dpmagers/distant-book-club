@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   resources :reviews
   resources :books
-  resources :readers
+  # resources :readers
+
+  post "/signup", to: "readers#create"
+  get "/me", to: "readers#show"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "sessions#destroy"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
