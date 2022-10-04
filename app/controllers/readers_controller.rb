@@ -1,8 +1,8 @@
 class ReadersController < ApplicationController
-    
-    # def show
-    #     render json: @current_reader
-    # end 
+    skip_before_action :authorize, only: :create
+    def show
+        render json: @current_reader
+    end 
     
     def create
         reader = Reader.create(reader_params)

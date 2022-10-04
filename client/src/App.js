@@ -2,13 +2,14 @@
 import NavBar from "./components/NavBar"
 import BookList from "./components/BookList"
 import AddBook from "./components/AddBook"
-
+import LoginForm from "./components/LoginForm"
 
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 
 function App() {
+  const [reader, setReader] = useState(null)
   const [page, setPage] = useState("/")
   const [bookList, setBookList] = useState("")
 
@@ -52,8 +53,10 @@ function App() {
     <div className="App">
       <header><h1 className="sitehead">Distant Book Club</h1></header>
         <BrowserRouter>
-        <NavBar onChangePage={setPage} />
+        <NavBar onChangePage={setPage} setReader={setReader} />
+  
       <div className="App">
+
         <Switch>
         <Route path="/addbook">
             <h1>ADD BOOK</h1>
@@ -68,6 +71,7 @@ function App() {
             <h1>BOOK DISCUSSION</h1>
           </Route>
           <Route path="/">
+            <LoginForm reader={reader} setReader={setReader}/>
             {/* <h1>Page Counter:</h1> */}
           </Route>
         </Switch>
