@@ -3,10 +3,10 @@ Rails.application.routes.draw do
   resources :books, only: [:index, :show, :create]
   # resources :readers
 
-  post "/signup", to: "readers#create"
-  get "/me", to: "readers#show"
-  post "/login", to: "sessions#create"
-  delete "/logout", to: "sessions#destroy"
+  # post "/signup", to: "readers#create"
+  # get "/me", to: "readers#show"
+  # post "/login", to: "sessions#create"
+  # delete "/logout", to: "sessions#destroy"
 
 
 

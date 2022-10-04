@@ -10,7 +10,7 @@ rescue_from ActiveRecord::RecordInvalid, with: :invalid_data
 
     def show
         book = Book.find(params[:id])
-        render json: book, status: :ok
+        render json: book, serializer: BookReviewsSerializer, status: :ok
     end 
 
     

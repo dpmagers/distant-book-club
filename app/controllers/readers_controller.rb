@@ -1,8 +1,8 @@
 class ReadersController < ApplicationController
     
-    def show
-        render json: @current_reader
-    end 
+    # def show
+    #     render json: @current_reader
+    # end 
     
     def create
         reader = Reader.create(reader_params)
