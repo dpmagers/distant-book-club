@@ -1,16 +1,14 @@
 Rails.application.routes.draw do
-  resources :reviews
-  resources :books
+  resources :reviews, only: [:index, :create, :update, :destroy]
+  resources :books, only: [:index, :show, :create]
   # resources :readers
 
   post "/signup", to: "readers#create"
   get "/me", to: "readers#show"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+
 
   get '/hello', to: 'application#hello_world'
 
@@ -19,3 +17,6 @@ Rails.application.routes.draw do
       constraints: ->(req) { !req.xhr? && req.format.html? }
 
 end
+
+  # Defines the root path route ("/")
+  # root "articles#index"
