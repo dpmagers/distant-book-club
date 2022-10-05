@@ -41,6 +41,7 @@ function LoginForm({ reader, setReader }) {
         />
 
         <button variant="fill" color="primary" type="submit">
+          Login
           {/* {isLoading ? "Loading..." : "Login"} */}
         </button>
 
