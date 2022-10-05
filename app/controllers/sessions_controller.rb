@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
     end 
 
     def destroy
-        session.destroy :reader_id
+        session.delete :reader_id
         head :no_content
     end 
 end

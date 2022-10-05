@@ -1,3 +1,3 @@
 class ReaderSerializer < ActiveModel::Serializer
-  attributes :id, :name, :fave_books, :password_digest
+  attributes :id, :username, :favorite_book, :password_digest
 end
