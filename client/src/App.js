@@ -6,6 +6,7 @@ import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
 import ReviewsContainer from "./components/ReviewsContainer"
 import AddReview from "./components/AddReview"
+import EditReview from "./components/EditReview"
 
 
 
@@ -21,20 +22,21 @@ function App() {
   const [reviewList, setReviewList] = useState([])
 
   const [book, setBook] = useState([])
-
+    // GET BOOKS
     useEffect(() => {
       fetch("http://localhost:4000/books")
       .then(res => res.json())
       .then(setBookList)
     },[])
 
+    // GET REVIEWS
     useEffect(() => {
       fetch("http://localhost:4000/reviews")
       .then(res => res.json())
       .then(setReviewList)
     },[])
 
-
+    // POST BOOK
     const checkDuplicate = (addedBook) => {
       const isDuplicate = bookList.some(book => {
         if (book.title === addedBook.title) {
@@ -45,6 +47,7 @@ function App() {
         return isDuplicate
       }
   
+      // POST BOOK 
     const addToBookList = (addedBook) => {
      if (checkDuplicate(addedBook)) {
       return null
@@ -62,7 +65,7 @@ function App() {
         }
       }
 
-
+      // POST REVIEW
       const addToReviewList = (addedReview) => {
          
         fetch("http://localhost:4000/reviews",{
@@ -77,27 +80,40 @@ function App() {
       }
          
 
-
-
-
+      // GET Book w/nested reviews
       const handleClick = (e) => {
-
-      // console.log(e.id)
           fetch(`http://localhost:4000/books/${e.id}`)
           .then(res => res.json())
           .then(book => setBook(book))
           // history.push(`/bookdiscussion`)
 
     }
-
+    // DELETE review
     const deleteReview = (e) => {
-      fetch(`http://localhost:4000/reviews/${e.id}`, {
+      fetch(`http://localhost:4000/reviews/${e}`, {
         method: "DELETE",
       })
-      const data = reviewList.filter(i => i.id !== e.id)
-      setReviewList(data)
+        .then(() => {const data = reviewList.filter(i => i.id !== e)
+          setReviewList(data)})
       
+      // console.log(e)
     }
+
+    const editReview = (e => {
+      console.log("hello")
+    })
+
+
+    // DAKOTA EXAMPLE 
+    // const onUpdateProject = (updatedProject) => {
+    //   setProjects(projects => projects.map(originalProject => {
+    //     if (originalProject.id === updatedProject.id) {
+    //       return updatedProject;
+    //     } else {
+    //       return originalProject;
+    //     }
+    //   }))
+    // };
 
 
   return (
@@ -120,8 +136,13 @@ function App() {
           </Route>
           <Route path="/bookdiscussion">
             <h1>BOOK DISCUSSION</h1>
+            {/* <AddReview addToReviewList={addToReviewList}/> */}
+            <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview}/>
+          </Route>
+          <Route path="/writereview">
+            <h1>WRITE A REVIEW</h1>
             <AddReview addToReviewList={addToReviewList}/>
-            <ReviewsContainer book={book} deleteReview={deleteReview}/>
+            <EditReview editReview={editReview}/>
           </Route>
           <Route path="/">
             <LoginForm reader={reader} setReader={setReader}/>

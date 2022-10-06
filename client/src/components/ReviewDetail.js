@@ -1,11 +1,19 @@
 import React, {useState} from 'react'
 
-const ReviewDetail = ({book, review, deleteReview, id}) => {
+const ReviewDetail = ({book, review, reviewList, deleteReview, id, editReview}) => {
 
-    const handleClick = () => {
-        deleteReview(id)
+    const handleClick = (review) => {
+        deleteReview(review.id)
+        // console.log(review)
     }
 
+    const handleEditReview = (review) => {
+        editReview(review.id)
+        console.log(review)
+    }
+
+
+    
 
     return (
         <div className="review-detail">
@@ -15,7 +23,10 @@ const ReviewDetail = ({book, review, deleteReview, id}) => {
             <p>Comment {review.comment}</p>
             <p>Rating {review.rating}</p>
             <p>Recommend? {review.would_recommend ? "Yes" : "No" }</p> 
-            <button onClick={handleClick} className='delete'>
+            <button onClick={() => handleEditReview(review)} className='delete'>
+                <p className="delete">UPDATE</p>
+            </button>
+            <button onClick={() => handleClick(review)} className='delete'>
                 <p className="delete">X</p>
             </button>
 

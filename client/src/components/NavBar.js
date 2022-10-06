@@ -23,7 +23,10 @@ function handleLogoutClick() {
             <NavLink to="/booklist"> Book List </NavLink>
             <NavLink to="/addbook"> Add Book </NavLink>
             <NavLink to="/bookdiscussion"> Book Discussion </NavLink>
-            
+            <NavLink to="/writereview"> Write a Book Review </NavLink>
+
+
+
             {/* <NavLink to="/bookdiscussion"> Book Discussion </NavLink>
             <NavLink to="/remembers/user"> User </NavLink>
             <NavLink to="/categories"> Categories </NavLink> */}
