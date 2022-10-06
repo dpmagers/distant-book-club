@@ -11,6 +11,7 @@ const ReviewDetail = ({book, review, deleteReview, id}) => {
         <div className="review-detail">
 
             <p> Name {review.name}</p>
+            <p> Favorite Book {review.favorite_book}</p>
             <p>Comment {review.comment}</p>
             <p>Rating {review.rating}</p>
             <p>Recommend? {review.would_recommend ? "Yes" : "No" }</p> 
