@@ -4,17 +4,43 @@ import React, { useState } from "react";
 function LoginForm({ reader, setReader }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState([]);
+
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault()
+    //     fetch("/login", {
+    //         method: "POST",
+    //         headers: {"Content-Type": "application/json"},
+    //         body: JSON.stringify({username, password})
+    //     })
+    //         .then((r) => {
+    //           if (r.ok) {
+    //             r.json().then((reader) => setReader(reader));
+    //           } else {
+    //             r.json().then((err) => setErrors(err.errors));
+    //           }
+    //         });
+  
+    // }
+
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        fetch("/login", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({username, password})
-        })
-            .then(res => res.json())
-            .then(data => setReader(data))
-    }
+      e.preventDefault()
+      fetch("/login", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({username, password})
+      })
+          .then(res => res.json())
+          .then(data => setReader(data))
+  }
+
+
+
+
+
+
 
     // useNavigate("/home") can be used to push you to other parts of app
     // username: "annak" , password: "annak123"
@@ -41,11 +67,12 @@ function LoginForm({ reader, setReader }) {
         />
 
         <button variant="fill" color="primary" type="submit">
+          Login
           {/* {isLoading ? "Loading..." : "Login"} */}
         </button>
 
         {/* {errors.map((err) => (
-          <Error key={err}>{err}</Error>
+          <p key={err}>{err}</p>
         ))} */}
 
     </form>

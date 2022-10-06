@@ -19,6 +19,11 @@ rescue_from ActiveRecord::RecordInvalid, with: :invalid_data
         render json: book, status: :created
     end
 
+    def update
+        book = Book.update!(book_params)
+        render json: book, status: :accepted
+    end
+
     private
 
     def book_params
