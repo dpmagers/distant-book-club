@@ -1,5 +1,5 @@
 class ReviewSerializer < ActiveModel::Serializer
-  attributes :id, :reader_id, :name, :favorite_book, :comment, :rating, :would_recommend
+  attributes :id, :reader_id, :book_id, :name, :favorite_book, :comment, :rating, :would_recommend
 
 
   def name

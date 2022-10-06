@@ -6,12 +6,12 @@ import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
 import ReviewsContainer from "./components/ReviewsContainer"
 import AddReview from "./components/AddReview"
-import EditReview from "./components/EditReview"
+
 
 
 
 import { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route} from "react-router-dom";
 
 
 function App() {
@@ -99,21 +99,36 @@ function App() {
       // console.log(e)
     }
 
-    const editReview = (e => {
+    const editReview = (review, reviewinput) => {
       console.log("hello")
-    })
 
+      setReviewList(reviewList => reviewList.map(originalReview => {
+            if (originalReview.id === review.id) {
+              return review;
+            } else {
+              return originalReview;
+            }
+          }))
+          console.log(review)
+          console.log(reviewinput)
+      fetch(`http://localhost:4000/reviews/${review.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewinput),
+      })
+      .then((resp) => resp.json())
+      .then((updatedReview) => {
+        setReviewList([...reviewList, updatedReview]);
+      });
+      // console.log()
+            //   // history.push("/bookdiscussion")
 
-    // DAKOTA EXAMPLE 
-    // const onUpdateProject = (updatedProject) => {
-    //   setProjects(projects => projects.map(originalProject => {
-    //     if (originalProject.id === updatedProject.id) {
-    //       return updatedProject;
-    //     } else {
-    //       return originalProject;
-    //     }
-    //   }))
-    // };
+    }
+  
+  
+
 
 
   return (
@@ -137,12 +152,12 @@ function App() {
           <Route path="/bookdiscussion">
             <h1>BOOK DISCUSSION</h1>
             {/* <AddReview addToReviewList={addToReviewList}/> */}
-            <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview}/>
+            <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview} />
           </Route>
           <Route path="/writereview">
             <h1>WRITE A REVIEW</h1>
             <AddReview addToReviewList={addToReviewList}/>
-            <EditReview editReview={editReview}/>
+            {/* <EditReview editReview={editReview}/> */}
           </Route>
           <Route path="/">
             <LoginForm reader={reader} setReader={setReader}/>

@@ -1,61 +1,46 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 
 
-function EditReview({editReview}) {
+
+function EditReview({review=null, editReview}) {
     // const { id } = useParams();
     // const history = useHistory()
 
+  const [formData, setFormData] = useState({
+    reader_id:'',
+    book_id:'',
+    comment:'',
+    rating:'',
+    would_recommend: false,
+  })
+  
+  useEffect(() => {
+    if (review !=null) {
+
+  setFormData({
+    reader_id: review.reader_id,
+    book_id: review.book_id,
+    comment:review.comment,
+    rating: review.rating,
+    would_recommend: review.would_recommend
+    })}
+  },[])
+
     // FROM ADDREVIEW
-    const [formData, setFormData] = useState({
-        reader_id:'',
-        book_id:'',
-        comment:'',
-        rating:'',
-        would_recommend: false,
-      })
-    
       function onSubmit(e){
         e.preventDefault()
-        const review = {
+        const reviewinput = {
           reader_id: formData.reader_id,
           book_id: formData.book_id,
           comment: formData.comment,
           rating: formData.rating,
           would_recommend: formData.would_recommend
         }
-        // addToReviewList(review)
-
-
-        
+        editReview(review, reviewinput)
+        console.log(review)
+      }
         // DAKOTA EXAMPLE 
-        // const initialState = {
-        //     name: "",
-        //     about: "",
-        //     phase: "",
-        //     link: "",
-        //     image: "",
-        //   };
-        //   const ProjectEditForm = ({ onUpdateProject }) => {
-        //     const [formData, setFormData] = useState(initialState);
-          
-        //     const { name, about, phase, link, image } = formData;
-          
-        //     const { id } = useParams();
-        //     const history = useHistory()
-        //     console.log('id', id)
-          
-          
-        //     useEffect(() => {
-        //       fetch(`http://localhost:4000/projects/${id}`)
-        //         .then((res) => res.json())
-        //         .then((project) => setFormData(project));
-        //     }, [id]);
-          
-        //     const handleChange = (e) => {
-        //       const { name, value } = e.target;
-        //       setFormData(formData => ({ ...formData, [name]: value }));
-        //     };
-          
+
         //     const handleSubmit = (e) => {
         //       e.preventDefault();
         //       const configObj = {
@@ -66,41 +51,37 @@ function EditReview({editReview}) {
         //         body: JSON.stringify(formData),
         //       };
           
-        //       fetch(`http://localhost:4000/projects/${id}`, configObj)
+        //       fetch(`http://localhost:4000/reviews/${id}`, configObj)
         //         .then((resp) => resp.json())
         //         .then((updatedProj) => {
         //           onUpdateProject(updatedProj);
         //           history.push("/projects")
         //         });
         //     };
+    
 
-
-
-
-
-    }
     return (
         <div>
             <h2>EDIT YOUR REVIEW</h2>
             <form onSubmit={onSubmit}>
        <label>
           Reader id
-          <input type="number" value={formData.reader_id} onChange={(e) => setFormData({...formData, reader_id: e.target.value})} />
+          <input type="number" name="reader-id" value={formData.reader_id} onChange={(e) => setFormData({...formData, reader_id: e.target.value})} />
         </label>
         <br/>
         <label>
         Book id
-          <input type="number" value={formData.book_id} onChange={(e) => setFormData({...formData, book_id: e.target.value})} />
+          <input type="number" name="book-id" value={formData.book_id} onChange={(e) => setFormData({...formData, book_id: e.target.value})} />
         </label>
         <br/>
         <label>
         Comment
-          <textarea type="text" value={formData.comment} onChange={(e) => setFormData({...formData, comment: e.target.value})} />
+          <textarea type="text" name="comment" value={formData.comment} onChange={(e) => setFormData({...formData, comment: e.target.value})} />
         </label>
         <br/>
         <label>
         Rating
-          <input type="number" value={formData.image} onChange={(e) => setFormData({...formData, rating: e.target.value})} />
+          <input type="number" name="rating" value={formData.rating} onChange={(e) => setFormData({...formData, rating: e.target.value})} />
         </label>
         <br/>
         
@@ -108,11 +89,12 @@ function EditReview({editReview}) {
                 Would Recommend?
                 <input 
                 type="checkbox"
-                value={formData.would_recommend}
-                onChange={(e) => setFormData({...formData, rating: e.target.value})}/>
+                name="would-recommend"
+                checked={formData.would_recommend}
+                onChange={(e) => setFormData({...formData, rating: e.target.checked})}/>
             </label>
         
-        <input type="submit" value="Add Review" />
+        <input type="submit" value="Update Review" />
 
 
        </form>
