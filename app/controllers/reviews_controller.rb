@@ -25,7 +25,7 @@ rescue_from ActiveRecord::RecordInvalid, with: :invalid_data
 
     private
 
-    def book_params
+    def review_params
         params.permit(:reader_id, :book_id, :comment, :rating, :would_recommend)
 
     end 
