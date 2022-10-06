@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
   resources :reviews, only: [:index, :create, :update, :destroy]
   resources :books, only: [:index, :show, :create, :update]
-  resources :readers
+  # resources :readers
 
   post "/signup", to: "readers#create"
   get "/me", to: "readers#show"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
+  get "/members", to: "readers#index"
 
 
 

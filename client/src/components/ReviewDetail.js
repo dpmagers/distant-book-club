@@ -6,12 +6,9 @@ const ReviewDetail = ({book, review, deleteReview, editReview}) => {
 
     const handleClick = (review) => {
         deleteReview(review.id)
-        // console.log(review)
     }
 
-    //originally handleEditReview
     const handleEditReview = (review) => {
-        // editReview(review.id)
         setClickEdit(!clickEdit)
         console.log(review)
     }
@@ -24,10 +21,17 @@ const ReviewDetail = ({book, review, deleteReview, editReview}) => {
             <p>Comment {review.comment}</p>
             <p>Rating {review.rating}</p>
             <p>Recommend? {review.would_recommend ? "Yes" : "No" }</p> 
+            
+            {/* {displayItem.id === currentUser.id && !isEditing ? <div>
+            <button></button>
+            <button></button>
+            </div> : null} */}
+            
+            
             <button onClick={() => handleEditReview(review)} className='delete'>
                 <p className="delete">UPDATE</p>
             </button>
-            {/* if clickEdit is true render editReview component; pass down data into form // if not null null */}
+
             {clickEdit ? <EditReview review={review} editReview={editReview} /> : null}
             
             <button onClick={() => handleClick(review)} className='delete'>

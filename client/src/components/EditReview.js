@@ -1,7 +1,5 @@
 import React, { useState, useEffect} from 'react'
 
-
-
 function EditReview({review=null, editReview}) {
     // const { id } = useParams();
     // const history = useHistory()
@@ -26,7 +24,6 @@ function EditReview({review=null, editReview}) {
     })}
   },[])
 
-    // FROM ADDREVIEW
       function onSubmit(e){
         e.preventDefault()
         const reviewinput = {
@@ -39,26 +36,7 @@ function EditReview({review=null, editReview}) {
         editReview(review, reviewinput)
         console.log(review)
       }
-        // DAKOTA EXAMPLE 
 
-        //     const handleSubmit = (e) => {
-        //       e.preventDefault();
-        //       const configObj = {
-        //         method: "PATCH",
-        //         headers: {
-        //           "Content-Type": "application/json"
-        //         },
-        //         body: JSON.stringify(formData),
-        //       };
-          
-        //       fetch(`http://localhost:4000/reviews/${id}`, configObj)
-        //         .then((resp) => resp.json())
-        //         .then((updatedProj) => {
-        //           onUpdateProject(updatedProj);
-        //           history.push("/projects")
-        //         });
-        //     };
-    
 
     return (
         <div>
