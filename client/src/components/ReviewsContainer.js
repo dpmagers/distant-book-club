@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import ReviewDetail from "./ReviewDetail"
-// import {useParams} from 'react-router-dom'
 
 
 function ReviewsContainer({reviewList, handleClick, book, deleteReview, editReview, errorList}) {
-// console.log(book.)
     return (
 
         <div className="review-container">

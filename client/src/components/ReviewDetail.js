@@ -29,12 +29,6 @@ const ReviewDetail = ({book, review, deleteReview, editReview, errorList}) => {
             <p>Rating {review.rating}</p>
             <p>Recommend? {review.would_recommend ? "Yes" : "No" }</p> 
             
-            {/* {displayItem.id === currentUser.id && !isEditing ? <div>
-            <button></button>
-            <button></button>
-            </div> : null} */}
-            
-            
             <button onClick={() => handleEditReview(review)} className='delete'>
                 <p className="delete">UPDATE</p>
             </button>

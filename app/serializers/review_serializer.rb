@@ -10,6 +10,4 @@ class ReviewSerializer < ActiveModel::Serializer
     object.reader.favorite_book
   end
 
-  # Review.first.reader.username
-
 end

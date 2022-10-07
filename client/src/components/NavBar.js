@@ -24,11 +24,6 @@ function handleLogoutClick() {
             <NavLink to="/bookdiscussion"> Book Discussion </NavLink>
             <NavLink to="/writereview"> Write a Book Review </NavLink>
 
-
-
-            {/* <NavLink to="/bookdiscussion"> Book Discussion </NavLink>
-            <NavLink to="/remembers/user"> User </NavLink>
-            <NavLink to="/categories"> Categories </NavLink> */}
         <button onClick={handleLogoutClick}>
           Logout
         </button>
