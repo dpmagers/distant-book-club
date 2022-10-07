@@ -69,7 +69,7 @@ function EditReview({review=null, editReview}) {
                 type="checkbox"
                 name="would-recommend"
                 checked={formData.would_recommend}
-                onChange={(e) => setFormData({...formData, rating: e.target.checked})}/>
+                onChange={(e) => setFormData({...formData, would_recommend: e.target.checked})}/>
             </label>
         
         <input type="submit" value="Update Review" />
