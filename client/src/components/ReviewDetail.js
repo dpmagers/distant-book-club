@@ -1,11 +1,18 @@
 import React, {useState} from 'react'
 import EditReview from './EditReview'
 
-const ReviewDetail = ({book, review, deleteReview, editReview}) => {
+const ReviewDetail = ({book, review, deleteReview, editReview, errorList}) => {
     const [clickEdit, setClickEdit] = useState(false)
+
+    console.log("is", errorList)
+    console.log(review)
+    const errors = errorList.filter(err => err?.id === review.id)
+   console.log("errors", errors)
+
 
     const handleClick = (review) => {
         deleteReview(review.id)
+
     }
 
     const handleEditReview = (review) => {
@@ -37,6 +44,9 @@ const ReviewDetail = ({book, review, deleteReview, editReview}) => {
             <button onClick={() => handleClick(review)} className='delete'>
                 <p className="delete">X</p>
             </button>
+            <div>
+                {errors && errors?.map((err) => err?.message)}
+            </div>
 
         </div>
 

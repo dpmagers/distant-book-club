@@ -20,6 +20,8 @@ function App() {
   const [page, setPage] = useState("/")
   const [bookList, setBookList] = useState([])
   const [reviewList, setReviewList] = useState([])
+  const [errorList, setErrorList] = useState([])
+  console.log(errorList)
 
   const [book, setBook] = useState([])
     // GET BOOKS
@@ -93,10 +95,17 @@ function App() {
       fetch(`http://localhost:4000/reviews/${e}`, {
         method: "DELETE",
       })
-        .then(() => {const data = reviewList.filter(i => i.id !== e)
-          setReviewList(data)})
-      
-      // console.log(e)
+        .then((res) => {const data = reviewList.filter(i => i.id !== e)
+                console.log(data)
+                console.log(res)
+          setReviewList(data)
+          if (res.status > 300) {
+            setErrorList([...errorList, {message: "unauthorized", id: e}])
+            console.log(errorList)
+          }
+        }).catch((error) => {
+            console.log("this is", error)
+          })
     }
 
     const editReview = (review, reviewinput) => {
@@ -152,7 +161,7 @@ function App() {
           <Route path="/bookdiscussion">
             <h1>BOOK DISCUSSION</h1>
             {/* <AddReview addToReviewList={addToReviewList}/> */}
-            <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview} />
+            <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview} errorList={errorList} />
           </Route>
           <Route path="/writereview">
             <h1>WRITE A REVIEW</h1>
