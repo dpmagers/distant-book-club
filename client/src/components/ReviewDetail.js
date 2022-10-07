@@ -1,11 +1,24 @@
 import React, {useState} from 'react'
+import EditReview from './EditReview'
 
-const ReviewDetail = ({book, review, deleteReview, id}) => {
+const ReviewDetail = ({book, review, deleteReview, editReview, errorList}) => {
+    const [clickEdit, setClickEdit] = useState(false)
 
-    const handleClick = () => {
-        deleteReview(id)
+    console.log("is", errorList)
+    console.log(review)
+    const errors = errorList.filter(err => err?.id === review.id)
+   console.log("errors", errors)
+
+
+    const handleClick = (review) => {
+        deleteReview(review.id)
+
     }
 
+    const handleEditReview = (review) => {
+        setClickEdit(!clickEdit)
+        console.log(review)
+    }
 
     return (
         <div className="review-detail">
@@ -15,9 +28,25 @@ const ReviewDetail = ({book, review, deleteReview, id}) => {
             <p>Comment {review.comment}</p>
             <p>Rating {review.rating}</p>
             <p>Recommend? {review.would_recommend ? "Yes" : "No" }</p> 
-            <button onClick={handleClick} className='delete'>
+            
+            {/* {displayItem.id === currentUser.id && !isEditing ? <div>
+            <button></button>
+            <button></button>
+            </div> : null} */}
+            
+            
+            <button onClick={() => handleEditReview(review)} className='delete'>
+                <p className="delete">UPDATE</p>
+            </button>
+
+            {clickEdit ? <EditReview review={review} editReview={editReview} /> : null}
+            
+            <button onClick={() => handleClick(review)} className='delete'>
                 <p className="delete">X</p>
             </button>
+            <div>
+                {errors && errors?.map((err) => <p>{err?.message} </p>)}
+            </div>
 
         </div>
 

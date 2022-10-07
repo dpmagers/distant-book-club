@@ -3,7 +3,7 @@ import ReviewDetail from "./ReviewDetail"
 // import {useParams} from 'react-router-dom'
 
 
-function ReviewsContainer({reviewList, handleClick, book, deleteReview}) {
+function ReviewsContainer({reviewList, handleClick, book, deleteReview, editReview, errorList}) {
 // console.log(book.)
     return (
 
@@ -21,7 +21,14 @@ function ReviewsContainer({reviewList, handleClick, book, deleteReview}) {
             
             <ul className="review-list"></ul>
                 {book.reviews ?  book.reviews.map(review => { 
-                    return <ReviewDetail book={book} review={review}  handleClick={handleClick} deleteReview={deleteReview}/>} ) : null}
+                    return <ReviewDetail key={review.reader_id} 
+                    book={book} review={review}  
+                    handleClick={handleClick} 
+                    deleteReview={deleteReview} 
+                    reviewList={reviewList}
+                    editReview={editReview}
+                    errorList={errorList}
+                    />} ) : null}
 
         </div>
    

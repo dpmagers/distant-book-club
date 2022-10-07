@@ -53,7 +53,7 @@ function AddReview({addToReviewList, errors}) {
                 <input 
                 type="checkbox"
                 value={formData.would_recommend}
-                onChange={(e) => setFormData({...formData, rating: e.target.value})}/>
+                onChange={(e) => setFormData({...formData, would_recommend: e.target.checked})}/>
             </label>
         
         <input type="submit" value="Add Review" />

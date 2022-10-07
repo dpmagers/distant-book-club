@@ -8,9 +8,8 @@ import ReviewsContainer from "./components/ReviewsContainer"
 import AddReview from "./components/AddReview"
 
 
-
 import { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route} from "react-router-dom";
 
 
 function App() {
@@ -19,22 +18,25 @@ function App() {
   const [page, setPage] = useState("/")
   const [bookList, setBookList] = useState([])
   const [reviewList, setReviewList] = useState([])
+  const [errorList, setErrorList] = useState([])
+  console.log(errorList)
 
   const [book, setBook] = useState([])
-
+    // GET BOOKS
     useEffect(() => {
       fetch("http://localhost:4000/books")
       .then(res => res.json())
       .then(setBookList)
     },[])
 
+    // GET REVIEWS
     useEffect(() => {
       fetch("http://localhost:4000/reviews")
       .then(res => res.json())
-      .then(setReviewList)
+      .then(setReaderList)
     },[])
 
-
+    // POST BOOK
     const checkDuplicate = (addedBook) => {
       const isDuplicate = bookList.some(book => {
         if (book.title === addedBook.title) {
@@ -45,6 +47,7 @@ function App() {
         return isDuplicate
       }
   
+      // POST BOOK 
     const addToBookList = (addedBook) => {
      if (checkDuplicate(addedBook)) {
       return null
@@ -62,7 +65,7 @@ function App() {
         }
       }
 
-
+      // POST REVIEW
       const addToReviewList = (addedReview) => {
          
         fetch("http://localhost:4000/reviews",{
@@ -77,27 +80,69 @@ function App() {
       }
          
 
-
-
-
+      // GET Book w/nested readers and reviews
       const handleClick = (e) => {
-
-      // console.log(e.id)
           fetch(`http://localhost:4000/books/${e.id}`)
           .then(res => res.json())
           .then(book => setBook(book))
           // history.push(`/bookdiscussion`)
 
     }
-
+    // DELETE review
     const deleteReview = (e) => {
-      fetch(`http://localhost:4000/reviews/${e.id}`, {
+      fetch(`http://localhost:4000/reviews/${e}`, {
         method: "DELETE",
       })
-      const data = reviewList.filter(i => i.id !== e.id)
-      setReviewList(data)
-      
+        .then((res) => {const data = reviewList.filter(i => i.id !== e)
+                console.log(data)
+                console.log(res)
+          setReviewList(data)
+          if (res.status > 300) {
+            setErrorList([...errorList, {message: "delete unauthorized", id: e}])
+            console.log(errorList)
+          }
+        }).catch((error) => {
+            console.log("this is", error)
+          })
     }
+
+    const editReview = (review, reviewinput) => {
+      console.log("hello")
+
+      setReviewList(reviewList => reviewList.map(originalReview => {
+            if (originalReview.id === review.id) {
+              return review;
+            } else {
+              return originalReview;
+            }
+          }))
+          console.log(review)
+          console.log(reviewinput)
+      fetch(`http://localhost:4000/reviews/${review.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewinput),
+      })
+      .then((resp) => {
+        if (resp.status > 300) {
+          setErrorList([...errorList, {message: "update unauthorized", id: review.id}])
+          console.log(errorList)
+        }
+        resp.json()
+      })
+      .then((updatedReview) => {
+        setReviewList([...reviewList, updatedReview]);
+      });
+
+      // console.log()
+            //   // history.push("/bookdiscussion")
+
+    }
+  
+  
+
 
 
   return (
@@ -109,7 +154,8 @@ function App() {
       <div className="App">
 
         <Switch>
-        <Route path="/addbook">
+        
+          <Route path="/addbook">
             <h1>ADD BOOK</h1>
             <AddBook addToBookList={addToBookList}/>
           </Route>
@@ -120,8 +166,13 @@ function App() {
           </Route>
           <Route path="/bookdiscussion">
             <h1>BOOK DISCUSSION</h1>
+            {/* <AddReview addToReviewList={addToReviewList}/> */}
+            <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview} errorList={errorList} />
+          </Route>
+          <Route path="/writereview">
+            <h1>WRITE A REVIEW</h1>
             <AddReview addToReviewList={addToReviewList}/>
-            <ReviewsContainer book={book} deleteReview={deleteReview}/>
+            {/* <EditReview editReview={editReview}/> */}
           </Route>
           <Route path="/">
             <LoginForm reader={reader} setReader={setReader}/>

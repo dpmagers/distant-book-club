@@ -6,7 +6,7 @@ function BookList({bookList, handleClick}) {
 
         <div className="book-container">
             <ul className="book-list"></ul>
-                {bookList ?  bookList.map(book => <BookDetail book={book} handleClick={handleClick}  /> ) : null}
+                {bookList ?  bookList.map(book => <BookDetail key={book.id} book={book} handleClick={handleClick}  /> ) : null}
 
         </div>
 
