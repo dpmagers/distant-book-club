@@ -13,30 +13,22 @@ before_action :authorize
 
     def update
         review = Review.find(params[:id])
-        puts "readerid is: #{review.reader_id} "
-        puts "current reader is: #{@current_reader.id} "
-    if review.reader_id == @current_reader.id
-        puts "ids matching"
-        review.update!(review_params)
-        render json: review, status: 202
-    else 
-        puts "don't match"
-        render json: {errors: ["Not Authorized"]}, status: 401
-    end 
-        
-        
+        if review.reader_id == @current_reader.id
+            review.update!(review_params)
+            render json: review, status: 202
+        else 
+            render json: {errors: ["Not Authorized"]}, status: 401
+        end 
+             
     end 
 
     def destroy
         review = Review.find(params[:id])
-            puts "readerid is: #{review.reader_id} "
-            puts "current reader is: #{@current_reader.id} "
+
         if review.reader_id == @current_reader.id
-            puts "ids matching"
             review.destroy
             render json: {}, status: 204
         else 
-            puts "don't match"
             render json: {errors: ["Not Authorized"]}, status: 401
         end 
     end 
@@ -54,9 +46,6 @@ before_action :authorize
     def authorize
         @current_reader = Reader.find_by(id: session[:reader_id])
 
-        puts "##########"
-        puts "current reader is #{@current_reader.inspect}"
-  
         render json: {errors: ["Not Authorized"]}, status: :unauthorized unless @current_reader
-      end 
+    end 
 end

@@ -1,8 +1,6 @@
 import React, { useState, useEffect} from 'react'
 
 function EditReview({review=null, editReview}) {
-    // const { id } = useParams();
-    // const history = useHistory()
 
   const [formData, setFormData] = useState({
     reader_id:'',

@@ -1,4 +1,4 @@
-// import './App.css';
+import './App.css';
 import NavBar from "./components/NavBar"
 import BookList from "./components/BookList"
 import AddBook from "./components/AddBook"
@@ -6,7 +6,6 @@ import LoginForm from "./components/LoginForm"
 import SignUpForm from "./components/SignUpForm"
 import ReviewsContainer from "./components/ReviewsContainer"
 import AddReview from "./components/AddReview"
-
 
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route} from "react-router-dom";
@@ -19,132 +18,126 @@ function App() {
   const [bookList, setBookList] = useState([])
   const [reviewList, setReviewList] = useState([])
   const [errorList, setErrorList] = useState([])
-  console.log(errorList)
+  const [readerList, setReaderList] = useState([])
 
   const [book, setBook] = useState([])
-    // GET BOOKS
-    useEffect(() => {
-      fetch("http://localhost:4000/books")
-      .then(res => res.json())
-      .then(setBookList)
-    },[])
-
-    // GET REVIEWS
-    useEffect(() => {
-      fetch("http://localhost:4000/reviews")
-      .then(res => res.json())
-      .then(setReaderList)
-    },[])
-
-    // POST BOOK
-    const checkDuplicate = (addedBook) => {
-      const isDuplicate = bookList.some(book => {
-        if (book.title === addedBook.title) {
-          return true;
-        }
-        return false;
-      });
-        return isDuplicate
-      }
   
-      // POST BOOK 
-    const addToBookList = (addedBook) => {
-     if (checkDuplicate(addedBook)) {
-      return null
-     } else {
-      
-          fetch("http://localhost:4000/books",{
-          method: 'POST',
-          headers: {
-            "Content-Type": 'application/json',
-          },
-          body: JSON.stringify(addedBook),
-        })    
-          .then(resp => resp.json())
-          .then(newBook => setBookList([...bookList, newBook]))
-        }
-      }
+  // GET BOOKS
+  useEffect(() => {
+    fetch("http://localhost:4000/books")
+    .then(res => res.json())
+    .then(setBookList)
+  },[])
 
-      // POST REVIEW
-      const addToReviewList = (addedReview) => {
-         
-        fetch("http://localhost:4000/reviews",{
+  // GET REVIEWS
+  useEffect(() => {
+    fetch("http://localhost:4000/reviews")
+    .then(res => res.json())
+    .then(setReaderList)
+  },[])
+
+  // POST BOOK
+  const checkDuplicate = (addedBook) => {
+    const isDuplicate = bookList.some(book => {
+      if (book.title === addedBook.title) {
+        return true;
+      }
+      return false;
+    });
+      return isDuplicate
+    }
+
+  // POST BOOK 
+  const addToBookList = (addedBook) => {
+    if (checkDuplicate(addedBook)) {
+    return null
+    } else {
+    
+        fetch("http://localhost:4000/books",{
         method: 'POST',
         headers: {
           "Content-Type": 'application/json',
         },
-        body: JSON.stringify(addedReview),
-        })    
+        body: JSON.stringify(addedBook),
+      })    
         .then(resp => resp.json())
-        .then(newReview => setReviewList([...reviewList, newReview]))
+        .then(newBook => setBookList([...bookList, newBook]))
       }
+    }
+
+  // POST REVIEW
+  const addToReviewList = (addedReview) => {
+      
+    fetch("http://localhost:4000/reviews",{
+    method: 'POST',
+    headers: {
+      "Content-Type": 'application/json',
+    },
+    body: JSON.stringify(addedReview),
+    })    
+    .then(resp => resp.json())
+    .then(newReview => setReviewList([...reviewList, newReview]))
+  }
          
 
-      // GET Book w/nested readers and reviews
-      const handleClick = (e) => {
-          fetch(`http://localhost:4000/books/${e.id}`)
-          .then(res => res.json())
-          .then(book => setBook(book))
-          // history.push(`/bookdiscussion`)
+  // GET BOOK w/nested readers and reviews
+  const handleClick = (e) => {
+      fetch(`http://localhost:4000/books/${e.id}`)
+      .then(res => res.json())
+      .then(book => setBook(book))
+}
 
-    }
-    // DELETE review
-    const deleteReview = (e) => {
-      fetch(`http://localhost:4000/reviews/${e}`, {
-        method: "DELETE",
-      })
-        .then((res) => {const data = reviewList.filter(i => i.id !== e)
-                console.log(data)
-                console.log(res)
-          setReviewList(data)
-          if (res.status > 300) {
-            setErrorList([...errorList, {message: "delete unauthorized", id: e}])
-            console.log(errorList)
-          }
-        }).catch((error) => {
-            console.log("this is", error)
-          })
-    }
-
-    const editReview = (review, reviewinput) => {
-      console.log("hello")
-
-      setReviewList(reviewList => reviewList.map(originalReview => {
-            if (originalReview.id === review.id) {
-              return review;
-            } else {
-              return originalReview;
-            }
-          }))
-          console.log(review)
-          console.log(reviewinput)
-      fetch(`http://localhost:4000/reviews/${review.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(reviewinput),
-      })
-      .then((resp) => {
-        if (resp.status > 300) {
-          setErrorList([...errorList, {message: "update unauthorized", id: review.id}])
+  // DELETE REVIEW
+  const deleteReview = (e) => {
+    fetch(`http://localhost:4000/reviews/${e}`, {
+      method: "DELETE",
+    })
+      .then((res) => {const data = reviewList.filter(i => i.id !== e)
+              console.log(data)
+              console.log(res)
+        setReviewList(data)
+        if (res.status > 300) {
+          setErrorList([...errorList, {message: "delete unauthorized", id: e}])
           console.log(errorList)
         }
-        resp.json()
-      })
-      .then((updatedReview) => {
-        setReviewList([...reviewList, updatedReview]);
-      });
+      }).catch((error) => {
+          console.log("this is", error)
+        })
+  }
 
-      // console.log()
-            //   // history.push("/bookdiscussion")
+  // PATCH REVIEW
+  const editReview = (review, reviewinput) => {
+    console.log("hello")
 
-    }
+    setReviewList(reviewList => reviewList.map(originalReview => {
+          if (originalReview.id === review.id) {
+            return review;
+          } else {
+            return originalReview;
+          }
+        }))
+        console.log(review)
+        console.log(reviewinput)
+    fetch(`http://localhost:4000/reviews/${review.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(reviewinput),
+    })
+    .then((resp) => {
+      if (resp.status > 300) {
+        setErrorList([...errorList, {message: "update unauthorized", id: review.id}])
+        console.log(errorList)
+      }
+      resp.json()
+    })
+    .then((updatedReview) => {
+      setReviewList([...reviewList, updatedReview]);
+    });
+
+  }
   
-  
-
-
-
   return (
     <div className="App">
       <header><h1 className="sitehead">Distant Book Club</h1></header>
@@ -161,23 +154,19 @@ function App() {
           </Route>
           <Route path="/booklist">
             <h1>BOOK LIST</h1>
-            {/* <AddBook addToBookList={addToBookList}/> */}
             <BookList bookList={bookList} handleClick={handleClick}/>
           </Route>
           <Route path="/bookdiscussion">
             <h1>BOOK DISCUSSION</h1>
-            {/* <AddReview addToReviewList={addToReviewList}/> */}
             <ReviewsContainer book={book} deleteReview={deleteReview} editReview={editReview} errorList={errorList} />
           </Route>
           <Route path="/writereview">
             <h1>WRITE A REVIEW</h1>
             <AddReview addToReviewList={addToReviewList}/>
-            {/* <EditReview editReview={editReview}/> */}
           </Route>
           <Route path="/">
             <LoginForm reader={reader} setReader={setReader}/>
             <SignUpForm reader={reader} setReader={setReader}/>
-            {/* <h1>Page Counter:</h1> */}
           </Route>
         </Switch>
       </div>

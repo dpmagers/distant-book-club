@@ -12,6 +12,14 @@ function SignUpForm({ reader, setReader }) {
   function handleSubmit(e) {
     e.preventDefault();
     setErrors([]);
+    setUsername("")
+    setPassword("")
+    setPasswordConfirmation("")
+    setFavoriteBook("")
+
+    
+
+
     setIsLoading(true);
     fetch("/signup", {
       method: "POST",
@@ -34,7 +42,6 @@ function SignUpForm({ reader, setReader }) {
     });
   }
 
-//   new user: mariedefrance romance11c
 
   return (
     <form onSubmit={handleSubmit}>
