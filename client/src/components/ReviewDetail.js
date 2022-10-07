@@ -45,7 +45,7 @@ const ReviewDetail = ({book, review, deleteReview, editReview, errorList}) => {
                 <p className="delete">X</p>
             </button>
             <div>
-                {errors && errors?.map((err) => err?.message)}
+                {errors && errors?.map((err) => <p>{err?.message} </p>)}
             </div>
 
         </div>

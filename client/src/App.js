@@ -100,7 +100,7 @@ function App() {
                 console.log(res)
           setReviewList(data)
           if (res.status > 300) {
-            setErrorList([...errorList, {message: "unauthorized", id: e}])
+            setErrorList([...errorList, {message: "delete unauthorized", id: e}])
             console.log(errorList)
           }
         }).catch((error) => {
@@ -127,10 +127,17 @@ function App() {
         },
         body: JSON.stringify(reviewinput),
       })
-      .then((resp) => resp.json())
+      .then((resp) => {
+        if (resp.status > 300) {
+          setErrorList([...errorList, {message: "update unauthorized", id: review.id}])
+          console.log(errorList)
+        }
+        resp.json()
+      })
       .then((updatedReview) => {
         setReviewList([...reviewList, updatedReview]);
       });
+
       // console.log()
             //   // history.push("/bookdiscussion")
 
