@@ -4,9 +4,6 @@ class ReadersController < ApplicationController
         render json: @current_reader
     end 
 
-    def index
-        render json: Reader.all, status: :ok
-    end 
     
     def create
         reader = Reader.create(reader_params)

@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   get "/me", to: "readers#show"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  get "/members", to: "readers#index"
 
 
 

@@ -8,8 +8,6 @@ import ReviewsContainer from "./components/ReviewsContainer"
 import AddReview from "./components/AddReview"
 
 
-
-
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route} from "react-router-dom";
 
@@ -35,7 +33,7 @@ function App() {
     useEffect(() => {
       fetch("http://localhost:4000/reviews")
       .then(res => res.json())
-      .then(setReviewList)
+      .then(setReaderList)
     },[])
 
     // POST BOOK
@@ -82,7 +80,7 @@ function App() {
       }
          
 
-      // GET Book w/nested reviews
+      // GET Book w/nested readers and reviews
       const handleClick = (e) => {
           fetch(`http://localhost:4000/books/${e.id}`)
           .then(res => res.json())
@@ -156,7 +154,8 @@ function App() {
       <div className="App">
 
         <Switch>
-        <Route path="/addbook">
+        
+          <Route path="/addbook">
             <h1>ADD BOOK</h1>
             <AddBook addToBookList={addToBookList}/>
           </Route>
