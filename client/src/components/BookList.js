@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import BookDetail from "./BookDetail"
 
 function BookList({bookList, handleClick}) {
+
+
+
+
     return (
 
         <div className="book-container">

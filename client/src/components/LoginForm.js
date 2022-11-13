@@ -1,8 +1,12 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"
+
 
 function LoginForm({ setReader }) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    let history = useHistory()
+
 
     const handleSubmit = (e) => {
       e.preventDefault()
@@ -18,7 +22,10 @@ function LoginForm({ setReader }) {
       })
           .then(res => res.json())
           .then(data => setReader(data))
+          history.push('/booklist');
   }
+
+  // "/booklist"
 
 
   return (

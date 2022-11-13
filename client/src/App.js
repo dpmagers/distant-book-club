@@ -7,8 +7,9 @@ import SignUpForm from "./components/SignUpForm"
 import ReviewsContainer from "./components/ReviewsContainer"
 import AddReview from "./components/AddReview"
 
+
 import { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route} from "react-router-dom";
+import { BrowserRouter, Switch, Route, useHistory} from "react-router-dom";
 
 
 function App() {
@@ -19,9 +20,24 @@ function App() {
   const [reviewList, setReviewList] = useState([])
   const [errorList, setErrorList] = useState([])
   const [readerList, setReaderList] = useState([])
+  // const [chooseBook, setChooseBook] = useState("")
 
   const [book, setBook] = useState([])
+  let history = useHistory()
   
+
+  useEffect(() => {
+    // auto-login
+    fetch("/me").then((r) => {
+      if (r.ok) {
+        r.json().then((reader) => {
+          setReader(reader)
+        });
+      }
+    });
+  }, []);
+
+
   // GET BOOKS
   useEffect(() => {
     fetch("http://localhost:4000/books")
@@ -85,6 +101,9 @@ function App() {
       fetch(`http://localhost:4000/books/${e.id}`)
       .then(res => res.json())
       .then(book => setBook(book))
+      // setChooseBook(book)
+      history.push("/bookdiscussion");
+      console.log(history.push)
 }
 
   // DELETE REVIEW
